@@ -19,6 +19,11 @@ jobs:
         run: lake build
       - name: Coverage
         run: bash tools/proof_coverage.sh > proof_coverage.txt && cat proof_coverage.txt
+      - name: Enforce sorry-free
+        run: |
+          status=$(grep '^status=' proof_coverage.txt | cut -d= -f2)
+          if [ "$status" != "SORRY_FREE" ]; then
+            echo "coverage status=$status"; exit 1; fi
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
