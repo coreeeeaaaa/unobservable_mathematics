@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: leanprover/elan-action@v1
+      - uses: leanprover/elan-action@v2
       - uses: actions/cache@v4
         with:
           path: |
