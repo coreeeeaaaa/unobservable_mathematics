@@ -1,0 +1,12 @@
+{
+  "terminal_id": "T22ce61947564",
+  "created_at": "2025-09-19T14:51:49.533072",
+  "pid": 27998,
+  "ppid": 19975,
+  "working_directory": "/Users/a/dev/jejoooo/20250916/GITHUB/unobservable_mathematics/formalization",
+  "environment": {
+    "TERM": "xterm-256color",
+    "SHELL": "/bin/zsh",
+    "TTY": ""
+  }
+}
