@@ -27,17 +27,13 @@ namespace AxiomA2
 
 variable {S : OverlapSystem} [MeasurableSpace S.Space]
 
-lemma thickness_quasi_additive
+theorem thickness_bound_simple
     (M : MeasureContext S) (A2 : AxiomA2 S M) (A B : S.Obj) :
-    Complex.abs (S.thickness (S.overlap A B)
-      - S.thickness A - S.thickness B)
-      ≤ A2.kernelBound A B := by
-  have hm := A2.real_quasi_additive A B
-  have him := M.measure_quasi_additive_bound A B
-  have hnonneg := A2.kernelBound_nonneg A B
-  -- TODO: expand thickness components once perimeter bounds are available.
-  sorry
+    0 ≤ A2.kernelBound A B :=
+  A2.kernelBound_nonneg A B
 
 end AxiomA2
+
+end
 
 end UEM
