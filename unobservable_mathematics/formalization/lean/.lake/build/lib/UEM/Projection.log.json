@@ -1,5 +1,0 @@
-{"log":
- [{"message":
-   ".> LEAN_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/Cli/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/build/lib DYLD_LIBRARY_PATH=././.lake/build/lib /Users/a/.elan/toolchains/leanprover--lean4---v4.8.0/bin/lean ./././src/UEM/Projection.lean -R ./././src -o ././.lake/build/lib/UEM/Projection.olean -i ././.lake/build/lib/UEM/Projection.ilean -c ././.lake/build/ir/UEM/Projection.c --json",
-   "level": "trace"}],
- "depHash": "9397955879262347202"}
