@@ -7,19 +7,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: leanprover/elan-action@v1
+
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+          source $HOME/.profile || true
+          T=$(cat lean/lean-toolchain)
+          $HOME/.elan/bin/elan toolchain install "$T"
+          $HOME/.elan/bin/elan default "$T"
+          lean --version
+          lake --version || true
+
       - uses: actions/cache@v4
         with:
           path: |
-            ~/.elan
+            lean/.lake
             lean/build
-            .lake
-          key: ${{ runner.os }}-lean-${{ hashFiles('**/lakefile.lean') }}
+            ~/.elan
+          key: ${{ runner.os }}-lean-${{ hashFiles('lean/lean-toolchain') }}-${{ hashFiles('lean/lakefile.lean') }}
+
       - name: Build
-        run: cd lean && lake build
+        run: |
+          cd lean
+          lake update
+          lake build
+
       - name: Coverage
-        run: bash tools/proof_coverage.sh > proof_coverage.txt && cat proof_coverage.txt
-      - name: Upload
+        run: |
+          cd lean
+          bash ../tools/proof_coverage.sh > ../proof_coverage.txt
+          cat ../proof_coverage.txt
+
+      - name: Enforce sorry-free
+        run: |
+          status=$(grep '^status=' proof_coverage.txt | cut -d= -f2)
+          if [ "$status" != "SORRY_FREE" ]; then
+            echo "coverage status=$status"; exit 1; fi
+
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ci-artifacts
