@@ -12,13 +12,17 @@ jobs:
         with:
           path: |
             ~/.elan
-            build
-            .lake
+            lean/build
+            lean/.lake
           key: ${{ runner.os }}-lean-${{ hashFiles('**/lakefile.lean') }}
       - name: Build
-        run: lake build
+        run: |
+          cd lean
+          lake build
       - name: Coverage
-        run: bash tools/proof_coverage.sh > proof_coverage.txt && cat proof_coverage.txt
+        run: |
+          cd lean
+          bash ../tools/proof_coverage.sh > ../proof_coverage.txt && cat ../proof_coverage.txt
       - name: Enforce sorry-free
         run: |
           status=$(grep '^status=' proof_coverage.txt | cut -d= -f2)
@@ -30,4 +34,4 @@ jobs:
           name: ci-artifacts
           path: |
             proof_coverage.txt
-            lake-manifest.json
+            lean/lake-manifest.json
