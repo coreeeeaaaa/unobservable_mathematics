@@ -105,6 +105,8 @@ noncomputable def push := Measure.map Pi μ
 theorem projection_measurable
   (hPi : Measurable Pi) : Measurable Pi := hPi
 
+/-- C1: For measurable Pi and measurable A with μ A < ∞,
+      μ A provides upper bound for push forward measure. -/
 theorem outer_mass_finite_on_image
   {A : Set α}
   (hPi : Measurable Pi)
