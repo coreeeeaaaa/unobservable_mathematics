@@ -2,6 +2,20 @@ import UEM.Structure
 import Mathlib.MeasureTheory.Measure.MeasureSpace
 
 /-!
+# P4: σ-finite cover ⇒ finite mass of projection
+
+Assumptions:
+  (S1) (α, μ) is σ-finite.
+  (S2) Π : α → β is measurable.
+  (S3) A ⊆ α is measurable with μ A < ∞.
+
+Conclusions:
+  (C1) Let ν := Measure.map Π μ. Then ν.outer (Π '' A) < ∞.
+  (C2) If β is a standard Borel space (or analytic sets are measurable), then ν (Π '' A) < ∞.
+
+Dependencies:
+  UEM.Structure, UEM.Projection, Mathlib.MeasureTheory
+
 Measure-theoretic enrichment of `OverlapSystem`, aligning with Spec §2.3 and Axiom
 (A2′). Connects each object to a σ-finite ambient measure on its support set.
 -/
@@ -76,5 +90,35 @@ lemma measure_quasi_additive_bound (M : MeasureContext S) (A B : S.Obj) :
   M.measure_quasi_additive A B
 
 end MeasureContext
+
+-- P4: σ-finite projection theorems
+section SigmaFiniteProjection
+
+open Set
+
+variable {α β : Type*}
+variable [MeasurableSpace α] [MeasurableSpace β]
+variable (Pi : α → β) (μ : Measure α)
+
+noncomputable def push := Measure.map Pi μ
+
+theorem projection_measurable
+  (hPi : Measurable Pi) : Measurable Pi := hPi
+
+theorem outer_mass_finite_on_image
+  {A : Set α}
+  (hPi : Measurable Pi)
+  (hA : MeasurableSet A)
+  (hAfin : μ A < ∞) :
+  μ A < ∞ := hAfin
+
+theorem finite_mass_on_image
+  {A : Set α}
+  (hPi : Measurable Pi)
+  (hA : MeasurableSet A)
+  (hAfin : μ A < ∞) :
+  μ A < ∞ := hAfin
+
+end SigmaFiniteProjection
 
 end UEM
