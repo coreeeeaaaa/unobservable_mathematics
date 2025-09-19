@@ -1,0 +1,28 @@
+name: CI (Lean)
+on:
+  push: { branches: [ main, feat/**, chore/** ] }
+  pull_request: { branches: [ main ] }
+jobs:
+  lean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/elan-action@v1
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            lean/build
+            .lake
+          key: ${{ runner.os }}-lean-${{ hashFiles('**/lakefile.lean') }}
+      - name: Build
+        run: cd lean && lake build
+      - name: Coverage
+        run: bash tools/proof_coverage.sh > proof_coverage.txt && cat proof_coverage.txt
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-artifacts
+          path: |
+            proof_coverage.txt
+            lean/lake-manifest.json

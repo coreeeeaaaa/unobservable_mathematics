@@ -1,8 +1,0 @@
-{"log":
- [{"message":
-   ".> LEAN_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/Cli/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/build/lib DYLD_LIBRARY_PATH=././.lake/build/lib /Users/a/.elan/toolchains/leanprover--lean4---v4.8.0/bin/lean ./././src/UEM/Structure.lean -R ./././src -o ././.lake/build/lib/UEM/Structure.olean -i ././.lake/build/lib/UEM/Structure.ilean -c ././.lake/build/ir/UEM/Structure.c --json",
-   "level": "trace"},
-  {"message":
-   "./././src/UEM/Structure.lean:61:2: try 'simp' instead of 'simpa'\nnote: this linter can be disabled with `set_option linter.unnecessarySimpa false`",
-   "level": "warning"}],
- "depHash": "12434019357038124138"}

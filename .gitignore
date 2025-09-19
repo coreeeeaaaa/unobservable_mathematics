@@ -1,0 +1,44 @@
+# Project .gitignore
+
+# Design documents and internal planning
+design_docs/
+*.design.md
+*_roadmap.md
+*_schedule.md
+*_manual.md
+*_plan.md
+
+# Context and terminal system files
+.context/
+**/terminals/
+**/*_work_report.md
+**/*_conversations.md
+**/terminal_info.json
+
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# Lean build artifacts
+.lake/build/
+.lake/packages/
+*.olean
+*.ilean
+*.trace
+.lake/lakefile.olean
+
+# Python cache files
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
