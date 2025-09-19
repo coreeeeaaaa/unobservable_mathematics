@@ -1,0 +1,4 @@
+defs=2
+theorems=10
+sorry=0
+status=SORRY_FREE

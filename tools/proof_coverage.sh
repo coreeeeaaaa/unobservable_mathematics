@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SRC="src"
+SRC="lean/src"
 defs=$(grep -R -E "^\s*def\s+" -n ${SRC} | wc -l | tr -d ' ')
 thms=$(grep -R -E "^\s*(theorem|lemma)\s+" -n ${SRC} | wc -l | tr -d ' ')
 sry=$(grep -R "sorry" -n ${SRC} | wc -l | tr -d ' ')
