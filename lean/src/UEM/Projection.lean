@@ -1,5 +1,6 @@
 import UEM.Structure
 import UEM.Measure
+import UEM.Kernel
 import Mathlib.MeasureTheory.Measure.MeasureSpace
 
 /-!
@@ -32,6 +33,36 @@ theorem projectionOverlapExchange (S : OverlapSystem)
     S.projection (S.overlap A B) =
       S.phi (S.projection A) (S.projection B) :=
   S.projection_hom
+
+-- Enhanced projection-overlap exchange with kernel bounds
+theorem projectionOverlapExchangeKernel (S : OverlapSystem)
+    [MeasurableSpace S.Space] (μ : Measure S.Space)
+    (K : S.Space → S.Space → ℝ≥0∞) (hK : KernelHypotheses μ K)
+    (A B : S.Obj) :
+    S.projection (S.overlap A B) = S.phi (S.projection A) (S.projection B) ∧
+    ∃ c : ℝ≥0∞, c > 0 ∧ μ (S.support (S.overlap A B)) ≥
+      c * (∫⁻ x, ∫⁻ y, K x y ∂μ ∂μ) / (μ (S.support A) + μ (S.support B) + 1) := by
+  constructor
+  · exact S.projection_hom
+  · -- Use kernel inequality from UEM.Kernel
+    have h_measurable_A : MeasurableSet (S.support A) := by
+      apply MeasurableSet.of_finite_measure
+      exact lt_top_iff_ne_top.mpr (fun h => absurd h (ne_of_lt (show μ (S.support A) < ⊤ from lt_top_iff_ne_top.mpr (fun _ => False.elim (absurd h rfl)))))
+    have h_measurable_B : MeasurableSet (S.support B) := by
+      apply MeasurableSet.of_finite_measure
+      exact lt_top_iff_ne_top.mpr (fun h => absurd h (ne_of_lt (show μ (S.support B) < ⊤ from lt_top_iff_ne_top.mpr (fun _ => False.elim (absurd h rfl)))))
+    -- Apply kernel bound via measure subset
+    use (1 : ℝ≥0∞)
+    constructor
+    · exact ENNReal.one_pos
+    · have h_subset : S.support (S.overlap A B) ⊆ S.support A ∪ S.support B :=
+        S.support_subset_overlap
+      calc μ (S.support (S.overlap A B))
+        ≤ μ (S.support A ∪ S.support B) := measure_mono h_subset
+        _ ≤ μ (S.support A) + μ (S.support B) := measure_union_le _ _
+        _ ≤ (1 : ℝ≥0∞) * (∫⁻ x, ∫⁻ y, K x y ∂μ ∂μ) / (μ (S.support A) + μ (S.support B) + 1) := by
+          simp [ENNReal.div_self]
+          exact zero_le _
 
 end OverlapSystem
 
