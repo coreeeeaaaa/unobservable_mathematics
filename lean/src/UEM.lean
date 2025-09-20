@@ -4,6 +4,8 @@ import UEM.Measure
 import UEM.AxiomA2
 import UEM.Projection
 import UEM.Model
+import UEM.HangulMonoid
+import UEM.Interpreter
 
 namespace UEM
 
