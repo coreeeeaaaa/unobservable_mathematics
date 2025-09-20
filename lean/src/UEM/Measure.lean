@@ -105,6 +105,12 @@ noncomputable def push := Measure.map Pi μ
 theorem projection_measurable
   (hPi : Measurable Pi) : Measurable Pi := hPi
 
+-- Auxiliary lemma: pushforward measure equality on universe
+lemma push_univ_eq (hPi : Measurable Pi) :
+  (push Pi μ) Set.univ = μ Set.univ := by
+  have h := Measure.map_apply (μ := μ) (f := Pi) hPi (MeasurableSet.univ)
+  simpa [push, Set.preimage_univ] using h
+
 /-- C1: For measurable Pi and measurable A with μ A < ∞,
       μ A provides upper bound for push forward measure. -/
 theorem outer_mass_finite_on_image
@@ -112,14 +118,38 @@ theorem outer_mass_finite_on_image
   (hPi : Measurable Pi)
   (hA : MeasurableSet A)
   (hAfin : μ A < ∞) :
-  μ A < ∞ := hAfin
+  (push Pi μ) (Pi '' A) ≤ μ Set.univ := by
+  have h_total : (push Pi μ) Set.univ = μ Set.univ :=
+    push_univ_eq (μ := μ) (Pi := Pi) hPi
+  rw [← h_total]
+  apply measure_mono
+  have h_sub : Pi '' A ⊆ Set.range Pi := Set.image_subset_range Pi A
+  exact Set.subset_univ _
+
+-- Auxiliary lemma: finite universe implies finite images
+lemma finite_univ_implies_finite_pushforward
+  (hPi : Measurable Pi)
+  (h_fin_univ : μ Set.univ < ∞) :
+  (push Pi μ) Set.univ < ∞ := by
+  rw [push_univ_eq (μ := μ) (Pi := Pi) hPi]
+  exact h_fin_univ
 
 theorem finite_mass_on_image
   {A : Set α}
   (hPi : Measurable Pi)
   (hA : MeasurableSet A)
   (hAfin : μ A < ∞) :
-  μ A < ∞ := hAfin
+  (push Pi μ) (Pi '' A) < ∞ := by
+  have h_bound := outer_mass_finite_on_image (μ := μ) (Pi := Pi) hPi hA hAfin
+  by_cases h : μ Set.univ < ∞
+  · exact lt_of_le_of_lt h_bound h
+  · -- If total measure is infinite, use finiteness of A
+    have h_A_finite : μ A < ∞ := hAfin
+    have h_A_sub : A ⊆ Set.univ := Set.subset_univ A
+    have h_contra : μ A ≤ μ Set.univ := measure_mono h_A_sub
+    push_neg at h
+    rw [h] at h_contra
+    exact (lt_top_iff_ne_top.mp h_A_finite h_contra.antisymm).elim
 
 end SigmaFiniteProjection
 
