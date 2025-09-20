@@ -1,0 +1,9 @@
+## [B] 환경/도구 버전
+Darwin suhyun-MacBookPro.local 23.6.0 Darwin Kernel Version 23.6.0: Mon Jul 29 21:14:21 PDT 2024; root:xnu-10063.141.2~1/RELEASE_ARM64_T8103 arm64
+ProductName:		macOS
+ProductVersion:		14.6.1
+BuildVersion:		23G93
+leanprover/lean4:v4.22.0
+leanprover/lean4:v4.23.0
+leanprover/lean4:v4.8.0
+Lean (version 4.23.0, arm64-apple-darwin23.6.0, commit 50aaf682e9b74ab92880292a25c68baa1cc81c87, Release)
